@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  api:
+    build: .
+    volumes:
+      - .:/usr/app
+    ports:
+      - 3333:3333
+    depends_on:
+      - db
+    networks:
+      - app
+
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_DATABASE}
+    volumes:
+     - pgdata:/data/postgres
+    networks:
+      - app
+
+volumes:
+  pgdata:
+    driver: local
+
+networks:
+  app: {}
