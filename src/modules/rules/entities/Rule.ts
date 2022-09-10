@@ -2,8 +2,10 @@ import { Column, CreateDateColumn, Entity, PrimaryColumn } from "typeorm";
 
 @Entity("rules")
 class Rule {
-  @PrimaryColumn()
-  id?: number;
+  @PrimaryColumn({
+    generated: "increment",
+  })
+  id!: number;
 
   @Column()
   name!: string;

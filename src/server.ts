@@ -12,15 +12,7 @@ import { AppDataSource } from "./database";
 import "./shared/container";
 import { AppError } from "./errors/AppError";
 
-AppDataSource.initialize().then(async () => {
-  try {
-    await yara.initializeAsync();
-
-    console.log("Yara listening");
-  } catch (err) {
-    console.error("Yara error: ", err);
-  }
-
+export const createApp = () => {
   const app = express();
 
   app.use(express.json());
@@ -46,7 +38,27 @@ AppDataSource.initialize().then(async () => {
     }
   );
 
-  app.listen(3333, () => {
-    console.log("Server is running");
+  return app;
+};
+
+export const initializeServer = async (dataSource = AppDataSource) => {
+  await dataSource.initialize();
+
+  try {
+    await yara.initializeAsync();
+
+    console.log("Yara listening");
+  } catch (err) {
+    console.error("Yara error: ", err);
+  }
+
+  return createApp();
+};
+
+if (process.env.NODE_ENV !== "testing") {
+  initializeServer().then((app) => {
+    app.listen(3333, () => {
+      console.log("Server is running");
+    });
   });
-});
+}
