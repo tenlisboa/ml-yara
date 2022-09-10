@@ -14,10 +14,10 @@ class AnalyzeRuleStringController {
       );
     }
 
-    const analyzeRUleStringUseCase = container.resolve(
+    const analyzeRuleStringUseCase = container.resolve(
       AnalyzeRuleStringUseCase
     );
-    const results = await analyzeRUleStringUseCase.execute({ text, rules });
+    const results = await analyzeRuleStringUseCase.execute({ text, rules });
 
     return response.status(200).json({
       error: false,
