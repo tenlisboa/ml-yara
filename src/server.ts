@@ -38,9 +38,10 @@ AppDataSource.initialize().then(async () => {
         });
       }
 
+      console.error(err);
       return response.status(500).json({
         error: true,
-        message: "Internal server error",
+        message: err.message,
       });
     }
   );
