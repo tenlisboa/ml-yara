@@ -1,4 +1,4 @@
-import { Repository } from "typeorm";
+import { FindOptionsWhere, Repository } from "typeorm";
 import { AppDataSource } from "../../../../database";
 import { Rule } from "../../entities/Rule";
 import { IRulesRepository, ICreateRuleDTO } from "../IRulesRepository";
@@ -8,6 +8,18 @@ class RulesRepository implements IRulesRepository {
 
   constructor() {
     this.repository = AppDataSource.getRepository(Rule);
+  }
+
+  async findByIds(ids: number[]): Promise<Rule[]> {
+    const where = ids.map<FindOptionsWhere<Rule>>((id) => {
+      return { id };
+    });
+
+    const rules = await this.repository.find({
+      where,
+    });
+
+    return rules;
   }
 
   async list(): Promise<Rule[]> {
