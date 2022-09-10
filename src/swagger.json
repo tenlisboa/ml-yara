@@ -9,7 +9,7 @@
       "get": {
         "tags": ["Rule"],
         "summary": "List Rules",
-        "description": "List all cars rules",
+        "description": "List all rules",
 
         "responses": {
           "200": {
@@ -24,7 +24,7 @@
                       "name": {
                         "type": "string"
                       },
-                      "description": {
+                      "rule": {
                         "type": "string"
                       }
                     }
@@ -41,58 +41,7 @@
       "post": {
         "tags": ["Rule"],
         "summary": "Create Rule",
-        "description": "Create a new rule of cars",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/definitions/Specification"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "500": {
-            "description": "Specification already exists"
-          }
-        }
-      }
-    },
-    "/rules/import": {
-      "post": {
-        "tags": ["Rule"],
-        "summary": "Upload a new rule",
-        "description": "Upload a new rule",
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Created"
-          }
-        }
-      }
-    },
-    "/specifications": {
-      "post": {
-        "tags": ["Specification"],
-        "summary": "Create Specification",
-        "description": "Create a new specification of cars",
+        "description": "Create a new rule",
         "requestBody": {
           "content": {
             "application/json": {
@@ -102,13 +51,9 @@
                   "name": {
                     "type": "string"
                   },
-                  "description": {
+                  "rule": {
                     "type": "string"
                   }
-                },
-                "example": {
-                  "name": "SUV",
-                  "description": "A Huge car"
                 }
               }
             }
@@ -118,23 +63,129 @@
           "201": {
             "description": "Created"
           },
-          "422": {
-            "description": "Invalid entries"
-          },
           "500": {
-            "description": "Internal error"
+            "description": "Rule already exists"
           }
         }
       }
-    }
-  },
-  "definitions": {
-    "Specification": {
-      "name": {
-        "type": "string"
-      },
-      "description": {
-        "type": "string"
+    },
+    "/rules/analyze": {
+      "post": {
+        "tags": ["Rule"],
+        "summary": "Send a text to be analyzed by yara giving the rules",
+        "description": "Send a text to be analyzed",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string"
+                  },
+                  "rules": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "rule_id": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type":"object",
+                    "properties": {
+                      "error": {
+                        "type": "boolean"
+                      },
+                      "results": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "rule_id": {
+                              "type": "number"
+                            },
+                            "matched": {
+                              "type": "boolean"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rules/analyze/file": {
+      "post": {
+        "tags": ["Rule"],
+        "summary": "Upload a new file to be analyzed by yara giving the rules",
+        "description": "Upload a new file to be analyzed",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "rules": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type":"object",
+                    "properties": {
+                      "error": {
+                        "type": "boolean"
+                      },
+                      "results": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "rule_id": {
+                              "type": "number"
+                            },
+                            "matched": {
+                              "type": "boolean"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+              }
+            }
+          }
+        }
       }
     }
   }
