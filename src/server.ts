@@ -19,7 +19,7 @@ export const createApp = () => {
 
   app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerFile));
 
-  app.use(router);
+  app.use("/api", router);
 
   app.use(
     (err: Error, request: Request, response: Response, next: NextFunction) => {
