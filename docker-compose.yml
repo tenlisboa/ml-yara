@@ -17,14 +17,12 @@ services:
     restart: always
     ports:
       - 5432:5432
-    env_file:
-      - .env
     environment:
-      - POSTGRES_USER=${DB_USERNAME}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_DATABASE}
+      - POSTGRES_USER=sample
+      - POSTGRES_PASSWORD=longpassword
+      - POSTGRES_DB=ml_yara
     volumes:
-     - pgdata:/data/postgres
+      - pgdata:/data/postgres
     networks:
       - app
 

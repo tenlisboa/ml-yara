@@ -3,6 +3,7 @@
 ```sh
 git clone ...
 cd ml-yara
-cp example.env .env
+yarn install
 docker-compose up
+yarn typeorm migration:run -d ./src/database/index.ts
 ```
