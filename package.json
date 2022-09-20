@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli",
+    "migrate": "ts-node-dev ./node_modules/typeorm/cli migration:run -d ./src/database/index.ts",
     "test:e2e": "NODE_ENV=testing yarn typeorm migration:run -d ./src/database/index.ts && NODE_ENV=testing ts-node ./src/e2e/index",
     "t:e2e": "newman run ./src/e2e/test-collection.json --env-var 'port=3333'"
   },

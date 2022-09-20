@@ -5,5 +5,5 @@ git clone ...
 cd ml-yara
 yarn install
 docker-compose up
-yarn typeorm migration:run -d ./src/database/index.ts
+docker-compose exec api npm run migrate
 ```
