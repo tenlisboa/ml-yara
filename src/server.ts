@@ -16,6 +16,7 @@ export const createApp = () => {
   const app = express();
 
   app.use(express.json());
+  app.use(express.static("tmp"));
 
   app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerFile));
 

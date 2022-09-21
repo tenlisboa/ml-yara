@@ -31,10 +31,6 @@ class Analyzer {
 
     const results: IScanResult = await scanner.scanAsync(textToBeScanned);
 
-    if (source instanceof Object && "path" in source) {
-      await fs.promises.unlink(source.path);
-    }
-
     return this.mapResultsForResponse(results, rules);
   }
 

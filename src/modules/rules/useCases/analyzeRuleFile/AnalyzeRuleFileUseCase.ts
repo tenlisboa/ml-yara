@@ -16,7 +16,6 @@ class AnalyzeRuleFileUseCase {
 
   async execute({ file, rules }: IRequest) {
     const rulesIds = rules.map((rule) => rule.rule_id);
-    console.log("RULES IDS: ", rules);
 
     const rulesFromRepository = await this.rulesRepository.findByIds(rulesIds);
     const analyzer = new Analyzer();

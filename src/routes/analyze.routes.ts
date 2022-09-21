@@ -7,7 +7,10 @@ import { AnalyzeRuleFileController } from "../modules/rules/useCases/analyzeRule
 const analyzeRoutes = Router();
 
 const upload = multer({
-  dest: "./tmp",
+  storage: multer.diskStorage({
+    destination: "./tmp/analyzed_files",
+    filename: (req, file, callback) => callback(null, file.originalname),
+  }),
 });
 
 const analyzeRuleStringController = new AnalyzeRuleStringController();
