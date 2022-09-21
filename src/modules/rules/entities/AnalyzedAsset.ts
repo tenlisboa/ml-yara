@@ -18,6 +18,9 @@ class AnalyzedAsset {
   source!: string;
 
   @Column()
+  donwloadLink?: string;
+
+  @Column()
   sourceIsFile!: boolean;
 
   @Column()

@@ -16,7 +16,11 @@ export const createApp = () => {
   const app = express();
 
   app.use(express.json());
-  app.use(express.static("tmp"));
+  app.use(
+    express.static("tmp", {
+      dotfiles: "deny",
+    })
+  );
 
   app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerFile));
 
@@ -57,6 +61,11 @@ export const initializeServer = async (dataSource = AppDataSource) => {
 };
 
 if (process.env.NODE_ENV !== "testing") {
+  process.env.APP_URL =
+    process.env.NODE_ENV !== "production"
+      ? "http://localhost:3333/"
+      : process.env.APP_URL;
+
   initializeServer().then((app) => {
     app.listen(3333, () => {
       console.log("Server is running");

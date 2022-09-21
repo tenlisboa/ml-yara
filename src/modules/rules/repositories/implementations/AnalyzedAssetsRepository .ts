@@ -26,11 +26,22 @@ class AnalyzedAssetsRepository implements IAnalyzedAssetsRepository {
   }: ICreateAnalyzedAssetDTO): Promise<AnalyzedAsset> {
     const sourceIsFile = source instanceof Object && "path" in source;
 
+    let donwloadLink;
+
+    if (sourceIsFile)
+      [
+        (donwloadLink = `${process.env.APP_URL}${source.path.replace(
+          "tmp/",
+          ""
+        )}`),
+      ];
+
     const data = {
       source: sourceIsFile ? source.originalname : source,
       sourceIsFile,
       ruleId,
       matched,
+      donwloadLink,
     };
 
     const alreadyExists = await this.repository.findOneBy(data);

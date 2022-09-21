@@ -35,6 +35,11 @@ export class CreateAnalyzedAssets1663764739053 implements MigrationInterface {
             type: "boolean",
           },
           {
+            name: "donwloadLink",
+            type: "varchar",
+            isNullable: true,
+          },
+          {
             name: "createdAt",
             type: "timestamp",
             default: "now()",
