@@ -23,7 +23,11 @@ class RulesRepository implements IRulesRepository {
   }
 
   async list(): Promise<Rule[]> {
-    return await this.repository.find();
+    return await this.repository.find({
+      relations: {
+        analyzedAssets: true,
+      },
+    });
   }
 
   async findByName(name: string): Promise<Rule> {
@@ -32,9 +36,9 @@ class RulesRepository implements IRulesRepository {
     return rule!;
   }
 
-  async create({ name, rule_string }: ICreateRuleDTO): Promise<Rule> {
+  async create({ name, ruleString }: ICreateRuleDTO): Promise<Rule> {
     const rule = this.repository.create({
-      rule_string,
+      ruleString,
       name,
     });
 

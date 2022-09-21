@@ -1,4 +1,11 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryColumn,
+} from "typeorm";
+import { Rule } from "./Rule";
 
 @Entity("analyzed_assets")
 class AnalyzedAsset {
@@ -11,16 +18,19 @@ class AnalyzedAsset {
   source!: string;
 
   @Column()
-  source_is_file!: boolean;
+  sourceIsFile!: boolean;
 
   @Column()
-  rule_id!: number;
+  ruleId!: number;
+
+  @ManyToOne(() => Rule, (rule) => rule.analyzedAssets)
+  rule!: Rule;
 
   @Column()
   matched!: boolean;
 
   @CreateDateColumn()
-  created_at!: Date;
+  createdAt!: Date;
 }
 
 export { AnalyzedAsset };

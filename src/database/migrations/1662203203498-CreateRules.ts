@@ -18,11 +18,11 @@ export class CreateRules1662203203498 implements MigrationInterface {
             type: "varchar",
           },
           {
-            name: "rule_string",
+            name: "ruleString",
             type: "varchar",
           },
           {
-            name: "created_at",
+            name: "createdAt",
             type: "timestamp",
             default: "now()",
           },

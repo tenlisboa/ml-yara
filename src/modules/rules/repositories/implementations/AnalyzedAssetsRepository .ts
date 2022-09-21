@@ -14,7 +14,7 @@ class AnalyzedAssetsRepository implements IAnalyzedAssetsRepository {
   }
 
   async findByRuleId(ruleId: number): Promise<AnalyzedAsset[]> {
-    const analyzedAssets = await this.repository.findBy({ rule_id: ruleId });
+    const analyzedAssets = await this.repository.findBy({ ruleId: ruleId });
 
     return analyzedAssets;
   }
@@ -24,12 +24,12 @@ class AnalyzedAssetsRepository implements IAnalyzedAssetsRepository {
     ruleId,
     matched,
   }: ICreateAnalyzedAssetDTO): Promise<AnalyzedAsset> {
-    const source_is_file = source instanceof Object && "path" in source;
+    const sourceIsFile = source instanceof Object && "path" in source;
 
     const analyzedAsset = this.repository.create({
-      source: source_is_file ? source.originalname : source,
-      source_is_file,
-      rule_id: ruleId,
+      source: sourceIsFile ? source.originalname : source,
+      sourceIsFile,
+      ruleId: ruleId,
       matched,
     });
 

@@ -14,7 +14,7 @@ class Analyzer {
   }
 
   async analyze({ source, rules }: IAnalyzerInput) {
-    const rulesStrings = rules.map((rule) => ({ string: rule.rule_string }));
+    const rulesStrings = rules.map((rule) => ({ string: rule.ruleString }));
 
     const scanner = yara.createScanner();
 
@@ -41,13 +41,13 @@ class Analyzer {
   private mapResultsForResponse(results: IScanResult, rules: Rule[]) {
     return rules.map((rule) => {
       const resultRule = results.rules.find((rRule) =>
-        rule.rule_string.includes(rRule.id)
+        rule.ruleString.includes(rRule.id)
       )!;
 
       const matched = resultRule ? resultRule.matches.length > 0 : false;
 
       return {
-        rule_id: rule.id,
+        ruleId: rule.id,
         matched,
       };
     });

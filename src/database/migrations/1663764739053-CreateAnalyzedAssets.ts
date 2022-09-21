@@ -1,4 +1,9 @@
-import { MigrationInterface, QueryRunner, Table } from "typeorm";
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableForeignKey,
+} from "typeorm";
 
 export class CreateAnalyzedAssets1663764739053 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -18,7 +23,7 @@ export class CreateAnalyzedAssets1663764739053 implements MigrationInterface {
             type: "varchar",
           },
           {
-            name: "rule_id",
+            name: "ruleId",
             type: "integer",
           },
           {
@@ -26,15 +31,25 @@ export class CreateAnalyzedAssets1663764739053 implements MigrationInterface {
             type: "boolean",
           },
           {
-            name: "source_is_file",
+            name: "sourceIsFile",
             type: "boolean",
           },
           {
-            name: "created_at",
+            name: "createdAt",
             type: "timestamp",
             default: "now()",
           },
         ],
+      })
+    );
+
+    await queryRunner.createForeignKey(
+      "analyzed_assets",
+      new TableForeignKey({
+        columnNames: ["ruleId"],
+        referencedColumnNames: ["id"],
+        referencedTableName: "rules",
+        onDelete: "CASCADE",
       })
     );
   }

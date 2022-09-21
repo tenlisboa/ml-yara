@@ -9,13 +9,13 @@ class CreateRuleController {
     const createRuleUseCase = container.resolve(CreateRuleUseCase);
     const newRule = await createRuleUseCase.execute({
       name,
-      rule_string: rule,
+      ruleString: rule,
     });
 
     return response.status(201).json({
       id: newRule.id,
       name: newRule.name,
-      rule: newRule.rule_string,
+      rule: newRule.ruleString,
     });
   }
 }

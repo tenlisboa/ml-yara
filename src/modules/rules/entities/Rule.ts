@@ -1,20 +1,28 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { AnalyzedAsset } from "./AnalyzedAsset";
 
 @Entity("rules")
 class Rule {
-  @PrimaryColumn({
-    generated: "increment",
-  })
+  @PrimaryGeneratedColumn()
   id!: number;
 
   @Column()
   name!: string;
 
   @Column()
-  rule_string!: string;
+  ruleString!: string;
+
+  @OneToMany(() => AnalyzedAsset, (analyzedAsset) => analyzedAsset.rule)
+  analyzedAssets!: AnalyzedAsset[];
 
   @CreateDateColumn()
-  created_at!: Date;
+  createdAt!: Date;
 }
 
 export { Rule };

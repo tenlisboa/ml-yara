@@ -27,11 +27,11 @@ class AnalyzeRuleStringUseCase {
 
     // TODO Converting to jobs after finishing
     await Promise.all(
-      results.map(({ rule_id, matched }) =>
+      results.map(({ ruleId, matched }) =>
         this.analyzedAssetsRepository.create({
           source: text,
           matched,
-          ruleId: rule_id,
+          ruleId,
         })
       )
     );
