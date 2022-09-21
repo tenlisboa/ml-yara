@@ -26,7 +26,7 @@ class AnalyzeRuleFileController {
     });
 
     return response.status(200).json({
-      error: false,
+      status: "ok",
       results,
     });
   }

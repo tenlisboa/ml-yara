@@ -20,7 +20,7 @@ class AnalyzeRuleStringController {
     const results = await analyzeRuleStringUseCase.execute({ text, rules });
 
     return response.status(200).json({
-      error: false,
+      status: "ok",
       results,
     });
   }
