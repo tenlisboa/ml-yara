@@ -7,9 +7,16 @@ class CreateRuleController {
     const { name, rule } = request.body;
 
     const createRuleUseCase = container.resolve(CreateRuleUseCase);
-    await createRuleUseCase.execute({ name, rule_string: rule });
+    const newRule = await createRuleUseCase.execute({
+      name,
+      rule_string: rule,
+    });
 
-    return response.status(200).send();
+    return response.status(201).json({
+      id: newRule.id,
+      name: newRule.name,
+      rule: newRule.rule_string,
+    });
   }
 }
 

@@ -9,7 +9,7 @@ interface IRulesRepository {
   findByName(name: string): Promise<Rule>;
   findByIds(ids: number[]): Promise<Rule[]>;
   list(): Promise<Rule[]>;
-  create({ name, rule_string }: ICreateRuleDTO): Promise<void>;
+  create({ name, rule_string }: ICreateRuleDTO): Promise<Rule>;
 }
 
 export { IRulesRepository, ICreateRuleDTO };

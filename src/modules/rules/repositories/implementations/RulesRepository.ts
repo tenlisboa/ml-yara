@@ -32,13 +32,13 @@ class RulesRepository implements IRulesRepository {
     return rule!;
   }
 
-  async create({ name, rule_string }: ICreateRuleDTO): Promise<void> {
+  async create({ name, rule_string }: ICreateRuleDTO): Promise<Rule> {
     const rule = this.repository.create({
       rule_string,
       name,
     });
 
-    await this.repository.save(rule);
+    return await this.repository.save(rule);
   }
 }
 
