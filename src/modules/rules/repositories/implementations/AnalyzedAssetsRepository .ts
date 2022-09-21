@@ -26,14 +26,22 @@ class AnalyzedAssetsRepository implements IAnalyzedAssetsRepository {
   }: ICreateAnalyzedAssetDTO): Promise<AnalyzedAsset> {
     const sourceIsFile = source instanceof Object && "path" in source;
 
-    const analyzedAsset = this.repository.create({
+    const data = {
       source: sourceIsFile ? source.originalname : source,
       sourceIsFile,
-      ruleId: ruleId,
+      ruleId,
       matched,
-    });
+    };
 
-    return await this.repository.save(analyzedAsset);
+    const alreadyExists = await this.repository.findOneBy(data);
+
+    if (!alreadyExists) {
+      const analyzedAsset = this.repository.create(data);
+
+      return await this.repository.save(analyzedAsset);
+    }
+
+    return alreadyExists;
   }
 }
 
