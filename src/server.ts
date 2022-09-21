@@ -38,7 +38,7 @@ export const createApp = () => {
       console.error(err);
       return response.status(500).json({
         status: "error",
-        message: err.message,
+        message: "Internal server error.",
       });
     }
   );

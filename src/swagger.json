@@ -5,11 +5,11 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/rules": {
+    "/api/rule": {
       "get": {
         "tags": ["Rule"],
         "summary": "List Rules",
-        "description": "List all rules",
+        "description": "List all rules and the analyzed assets",
 
         "responses": {
           "200": {
@@ -21,11 +21,46 @@
                   "items": {
                     "type":"object",
                     "properties": {
+                      "id": {
+                        "type": "number"
+                      },
                       "name": {
                         "type": "string"
                       },
-                      "rule": {
+                      "ruleString": {
                         "type": "string"
+                      },
+                      "createdAt": {
+                        "type": "string"
+                      },
+                      "analyzedAssets": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "number"
+                            },
+                            "source": {
+                              "type": "string"
+                            },
+                            "donwloadLink": {
+                              "type": "string"
+                            },
+                            "sourceIsFile": {
+                              "type": "boolean"
+                            },
+                            "ruleId": {
+                              "type": "number"
+                            },
+                            "matched": {
+                              "type": "boolean"
+                            },
+                            "createdAt": {
+                              "type": "string"
+                            }
+                          }
+                        }
                       }
                     }
                   }
@@ -34,7 +69,26 @@
             }
           },
           "500": {
-            "description": "Internal error"
+            "description": "Internal error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Internal server error."
+                }
+              }
+            }
           }
         }
       },
@@ -61,15 +115,77 @@
         },
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "ruleString": {
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Rule already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Rule Already exists!"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Rule already exists"
+            "description": "Internal error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Internal server error."
+                }
+              }
+            }
           }
         }
       }
     },
-    "/rules/analyze": {
+    "/api/analyze/text": {
       "post": {
         "tags": ["Rule"],
         "summary": "Send a text to be analyzed by yara giving the rules",
@@ -107,8 +223,8 @@
                 "schema": {
                   "type":"object",
                     "properties": {
-                      "error": {
-                        "type": "boolean"
+                      "status": {
+                        "type": "string"
                       },
                       "results": {
                         "type": "array",
@@ -125,14 +241,49 @@
                         }
                       }
                     }
+                  },
+                "example": {
+                  "status": "ok",
+                  "results": [
+                      {
+                          "ruleId": 1,
+                          "matched": false
+                      },
+                      {
+                          "ruleId": 2,
+                          "matched": true
+                      }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
                   }
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Internal server error."
+                }
               }
             }
           }
         }
       }
     },
-    "/rules/analyze/file": {
+    "/api/analyze/file": {
       "post": {
         "tags": ["Rule"],
         "summary": "Upload a new file to be analyzed by yara giving the rules",
@@ -163,8 +314,8 @@
                 "schema": {
                   "type":"object",
                     "properties": {
-                      "error": {
-                        "type": "boolean"
+                      "status": {
+                        "type": "string"
                       },
                       "results": {
                         "type": "array",
@@ -181,7 +332,42 @@
                         }
                       }
                     }
+                  },
+                "example": {
+                  "status": "ok",
+                  "results": [
+                      {
+                          "ruleId": 1,
+                          "matched": false
+                      },
+                      {
+                          "ruleId": 2,
+                          "matched": true
+                      }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
                   }
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Internal server error."
+                }
               }
             }
           }
